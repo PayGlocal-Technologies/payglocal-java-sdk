@@ -1,0 +1,14 @@
+{
+  "merchantTxnId":"23AEE8CB6B62EE2AF07",
+  "paymentData": {
+    "totalAmount": "10",
+    "txnCurrency": "INR",
+    "cardData":{
+      "number":"4000000000000002",
+      "expiryMonth":"05",
+      "expiryYear":"2026",
+      "securityCode":"173"
+    }
+  },
+  "merchantCallbackURL" : "https://api.uat.payglocal.in/gl/v1/payments/merchantCallback"
+}
