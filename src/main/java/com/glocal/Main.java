@@ -13,16 +13,26 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String payloadFileName = "/Users/mohit/Downloads/api-client/src/main/resources/requestpayload.json";
-        String publicKeyFilePath = "//Users/mohit/Downloads/api-client/src/main/resources/keys/832ea6bb-5623-4dc3-96b1-c4be61e97324_payglocal_mid.pem";
+        //Absolute path to payload
+        String payloadFileName = "/src/main/resources/requestpayload.json";
+
+        //Absolute path to PayGlocal public key this should have been downloaded from gcc
+        String publicKeyFilePath = "/src/main/resources/keys/832ea6bb-5623-4dc3-96b1-c4be61e97324_payglocal_mid.pem";
+
+        //key id of public key
         String publicKeyId = "832ea6bb-5623-4dc3-96b1-c4be61e97324";
 
+        //Absolute path to your private key this should have been downloaded from gcc
         String privateKeyFilePath = "/Users/mohit/Downloads/api-client/src/main/resources/keys/a28b9bdc-2080-4141-9117-810a352d63d4_nihaluat12.pem";
+
+        //key id of private key
         String privateKeyId = "a28b9bdc-2080-4141-9117-810a352d63d4";
 
+        //merchant id assigned to you from payglocal
         String merchantId = "nihaluat12";
 
-        String statusPayload = "/gl/v1/payments/gl_523cef44-8e0d-4ad2-ab08-eb0f4c3ff72f/status";
+        //this is for status check , please replace <TXN-GID> with the GID you get in /initiate API
+        String statusPayload = "/gl/v1/payments/<TXN-GID>/status";
 
         try {
             String jsonPayload = new String(Files.readAllBytes(Paths.get(payloadFileName)));
@@ -43,6 +53,5 @@ public class Main {
         }catch (Exception e){
             logger.error("Error wile creating jwe/jws token", e);
         }
-
     }
 }
