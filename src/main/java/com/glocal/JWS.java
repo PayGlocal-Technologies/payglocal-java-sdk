@@ -1,12 +1,19 @@
 package com.glocal;
 
 import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.crypto.SecretKey;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.HashMap;
@@ -77,5 +84,44 @@ public class JWS {
             return null;
         }
         return jwsObject.serialize();
+    }
+
+    // function to verify a JWS token using a public key
+    // token : JWS token
+    // publicKey : Public key of the PayGlocal (Downloaded form gcc portal)
+    public boolean validate(String token, PublicKey publicKey) throws ParseException, JOSEException {
+        if(token == null || token.isEmpty()){
+            logger.error("JWS token is empty, cannot verify token");
+            return false;
+        }
+        if(publicKey == null){
+            logger.error("Public key is empty, cannot verify token");
+            return false;
+        }
+        JWSObject jwsToken = JWSObject.parse(token);
+        JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey) publicKey);
+        return jwsToken.verify(verifier);
+    }
+
+    // function to get the header section of a JWS token
+    // token : JWS token
+    public Map<String, Object> getHeader(String token) throws ParseException {
+        if(token == null || token.isEmpty()){
+            logger.error("JWS token is empty, cannot parse token");
+            return null;
+        }
+        JWSObject jwsToken = JWSObject.parse(token);
+        return jwsToken.getHeader().toJSONObject();
+    }
+
+    // function to get the claim set section of a JWS token
+    // token : JWS token
+    public Map<String, Object> getClaimSet(String token) throws ParseException {
+        if(token == null || token.isEmpty()){
+            logger.error("JWS token is empty, cannot parse token");
+            return null;
+        }
+        JWSObject jwsToken = JWSObject.parse(token);
+        return jwsToken.getPayload().toJSONObject();
     }
 }
