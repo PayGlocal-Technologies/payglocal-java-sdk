@@ -1,0 +1,12 @@
+{
+  "referenceId": "23AEE8CB6B62EE2AF07",
+  "merchantId": "xyz_com",
+  "transactionAmount": "100.0",
+  "authValue": "123456",
+  "cardData": {
+    "accountNumber": "****************",
+    "securityCode": "123",
+    "expiryMonth": "07",
+    "expiryYear": "2024"
+  }
+}

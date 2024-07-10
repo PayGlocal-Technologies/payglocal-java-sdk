@@ -8,7 +8,8 @@ JWS and JWE generation classes
 
 Resource package files
 ```
-1. requestpayload.json which you can use send payload.
+1. requestpayload.json which you can use generate JWS and JWE for transaction request.
+2. altid_requestpayload.json which you can use generate JWS and JWE for alt id request.
 2. keys folder where you need to place the PayGlocal public key and Your private key
 ```
 
@@ -25,6 +26,19 @@ pass JWS_TOKEN_VALUE in the http header 'x-gl-token-external'
 pass JWE_TOKEN_VALUE in the http body
 ```
 
+Rest API
+```
+"call respective rest API for with header and body information"
+End points:
+UAT Environment : https://api.uat.payglocal.in
+Production Environment: https://api.prod.payglocal.in
+
+Alt ID API 
+POST : /gl/v1/altId
+
+Payment API 
+POST : /gl/v1/payments/initiate
+```
 
 
 
