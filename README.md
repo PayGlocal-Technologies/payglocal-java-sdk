@@ -10,7 +10,8 @@ Resource package files
 ```
 1. requestpayload.json which you can use generate JWS and JWE for transaction request.
 2. altid_requestpayload.json which you can use generate JWS and JWE for alt id request.
-2. keys folder where you need to place the PayGlocal public key and Your private key
+3. compliance_check_requestpayload.json which you can use generate JWS and JWE for compliance API request.
+4. keys folder where you need to place the PayGlocal public key and Your private key
 ```
 
 Start off from the Main.java class to understand the integration specs.
@@ -38,6 +39,9 @@ POST : /gl/v1/altId
 
 Payment API 
 POST : /gl/v1/payments/initiate
+
+Compliance API 
+POST :  /gcc/v1/compliance/check
 ```
 
 
