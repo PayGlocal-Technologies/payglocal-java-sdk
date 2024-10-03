@@ -1,14 +1,17 @@
 package com.glocal;
 
 import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
+import java.text.ParseException;
 import java.time.Instant;
 
 public class JWE {
@@ -59,4 +62,27 @@ public class JWE {
         }
         return jweObject.serialize();
     }
+
+    // function to decrypt JWE token, utilize this to test the previous function or if you have opted
+    // for an integration where the PayGlocal responses are encrypted responses with your RSA pubKey
+    //
+    // jweToken : encrypted token from PayGlocal response (encrypted using merchant RSA pubKey)
+    // pubKey : Public key of the Merchant
+    public static String decrypt(String jweToken, PrivateKey pvtKey) {
+        if(pvtKey == null){
+            logger.error("Merchant RSA private key is null.");
+            return null;
+        }
+        try {
+            JWEObject jweObject = JWEObject.parse(jweToken);
+            JWEDecrypter decrypted = new RSADecrypter(pvtKey);
+            jweObject.decrypt(decrypted);
+            // Note: This returns the "stringified" json payload
+            return jweObject.getPayload().toString();
+        } catch (JOSEException | ParseException e) {
+            logger.error("Unable to decrypt JWE token for response payload decryption", e);
+            return null;
+        }
+    }
+
 }
